@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+
+{
+  "title": "GOT",
+  "author": "Poshinski",
+  "url": "http://GOT.com.co",
+  "likes": 12000
+}
