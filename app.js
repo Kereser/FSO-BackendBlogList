@@ -6,6 +6,7 @@ const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
+require('express-async-errors')
 
 app.use(cors())
 app.use(express.json())
