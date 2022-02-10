@@ -27,6 +27,37 @@ test('correct blogs length returned', async () => {
   expect(result.body).toHaveLength(blogsAtStart.length)
 })
 
+test('unique identifier property = id', async () => {
+  
+  const result = await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /json/)
+
+  const ids = result.body.map(b => b.id)
+  expect(ids).toBeDefined()
+})
+
+test('Creates a new blog post', async () => {
+  const newBlog = {
+    title: "Pakita la del barrio",
+    author: "Cevichito",
+    url: "https://cechicheria.com.co",
+    likes: 2
+  }
+
+  const result = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /json/)
+
+  const blogsAtEnd = await helper.blogsInDB()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(b => b.title)
+  expect(titles).toContain(result.body.title)
+}, 100000)
 
 
 afterAll(() => {
