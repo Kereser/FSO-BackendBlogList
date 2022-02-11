@@ -7,7 +7,7 @@ const helper = require('./blog_helper')
 const api = supertest(app)
 
 beforeEach( async () => {
-  jest.setTimeout(100000)
+  jest.setTimeout(10000)
   await Blog.deleteMany({})
 
   const blogObjects = helper.initialBlogs.map(b => new Blog(b))
@@ -39,6 +39,7 @@ test('unique identifier property = id', async () => {
 })
 
 test('Creates a new blog post', async () => {
+  jest.setTimeout(10000)
   const newBlog = {
     title: "Pakita la del barrio",
     author: "Cevichito",
@@ -57,7 +58,49 @@ test('Creates a new blog post', async () => {
 
   const titles = blogsAtEnd.map(b => b.title)
   expect(titles).toContain(result.body.title)
-}, 100000)
+})
+
+test('No likes in request', async () => {
+  const newBlog = {
+    title: "Pakita la del barrio",
+    author: "Cevichito",
+    url: "https://cechicheria.com.co"
+  }
+
+  const result = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /json/)
+
+  expect(result.body.likes).toBe(0)
+})
+
+test('Missing title', async () => {
+  const newBlog = {
+    author: "Cevichito",
+    url: "https://cechicheria.com.co",
+    likes: 100
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
+test('Missing url', async () => {
+  const newBlog = {
+    title: "Sirenam",
+    author: "Cevichito",
+    likes: 100
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
 
 
 afterAll(() => {
