@@ -24,6 +24,8 @@ mongoose
 app.use(middleware.requestLogger)
 
 app.use('/api/blogs', blogsRouter)
+
+app.use(middleware.unknonPath)
 app.use(middleware.errorHandler)
 
 module.exports = app

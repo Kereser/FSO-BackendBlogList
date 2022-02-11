@@ -1,5 +1,9 @@
 const logger = require('./logger')
 
+const unknonPath = (req, res, next) => {
+  return res.status(404).send({ error: 'Unknown endpoint' })
+}
+
 const errorHandler = (error, req, res, next) => {
   logger.error(error.message)
 
@@ -20,4 +24,4 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-module.exports = { errorHandler, requestLogger }
+module.exports = { errorHandler, requestLogger, unknonPath }

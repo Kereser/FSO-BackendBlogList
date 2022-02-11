@@ -102,7 +102,6 @@ describe('Favorite Blog', () => {
   test('Star wars 22 likes', () => {
 
     const result = listHelper.favoriteBlog(blogs)
-    console.log(result)
 
     expect(result)
       .toEqual({
@@ -115,7 +114,6 @@ describe('Favorite Blog', () => {
   test('Not equals to favorite blog', () => {
 
     const result = listHelper.favoriteBlog(blogs)
-    console.log(result)
 
     expect(result)
       .not
@@ -133,7 +131,6 @@ describe('Most blogs per author', () => {
   test('Robert C. Martin', () => {
 
     const result = listHelper.mostBlogs(blogs)
-    console.log(result)
     expect(result).toEqual({
       author: "Robert C. Martin",
       blogs: 4,
