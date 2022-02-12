@@ -3,8 +3,9 @@ Content-Type: application/json
 
 
 {
-  "title": "GOT",
-  "author": "Poshinski",
-  "url": "http://GOT.com.co",
-  "likes": 12000
+  "title": "Adding a note linked to root user",
+  "author": "rootie",
+  "url": "http://rootieandNote.com.co",
+  "likes": 5043,
+  "userId": "62081ef630a1c186acf28384"
 }

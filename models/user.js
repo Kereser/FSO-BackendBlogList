@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema({
     validate: [usernameValidator, '{VALUE} must not contain special characters.']
   },
   passwordHash: String,
-  name: String
+  name: String,
+  blogs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Blog'
+  }]
 })
 
 userSchema.set('toJSON', {
