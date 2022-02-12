@@ -10,12 +10,15 @@ usersRouter.post('/', async (req, res) => {
     return res.status(400).json({
       error: 'Username already exist'
     })
+  } 
+  if (password.length < 3 || !password) {
+    return res.status(400).json({
+      error: 'Password doesn\'t meet the requirements'
+    })
   }
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
-
-  console.log(passwordHash)
 
   const newUser = new User({
     username,
@@ -24,7 +27,6 @@ usersRouter.post('/', async (req, res) => {
   })
 
   const savedUser = await newUser.save()
-  console.log(`Este es el usuario guardado: ${savedUser}`)
   res.status(201).json(savedUser.toJSON())
 })
 

@@ -1,19 +1,22 @@
 const mongoose = require('mongoose')
-const app = require('../app')
 const supertest = require('supertest')
-const Blog = require('../models/blog')
+const bcrypt = require('bcrypt')
+const app = require('../app')
 const helper = require('./blog_helper')
+
+const Blog = require('../models/blog')
+const User = require('../models/user')
+
 
 const api = supertest(app)
 
 beforeEach( async () => {
-  jest.setTimeout(10000)
   await Blog.deleteMany({})
 
   const blogObjects = helper.initialBlogs.map(b => new Blog(b))
   const promiseArray = blogObjects.map(b => b.save()) 
   await Promise.all(promiseArray)
-})
+}, 20000)
 
 describe('There is initial state for blogs', () => {
   test('correct blogs length returned', async () => {
@@ -162,6 +165,78 @@ describe('Deleting resources', () => {
   })
 })
 
+describe('Adding users to db with initial data', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({username: 'root', passwordHash, name: 'shiki'})
+    await user.save()
+  })
+
+  test('Adding one valid User', async () => {
+    const newUser = {
+      username: 'root2',
+      password: 'sekret2',
+      name: 'rootie2'
+    }
+
+    const result = await api 
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /json/)
+    
+    const userAtEnd = await helper.usersInDb()
+    const usernames = userAtEnd.map(u => u.username)
+    expect(usernames).toContain(result.body.username)
+  })
+
+  test('Adding a non unique username', async () => {
+    const newUser = {
+      username: 'root',
+      password: 'sekret',
+      name: 'rootie2'
+    }
+
+    const result = await api 
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    expect(result.body.error).toContain('Username already exist')
+  })
+
+  test('Adding a user with username: ro', async () => {
+    const newUser = {
+      username: 'ro',
+      password: 'sekret',
+      name: 'rootie2'
+    }
+
+    const result = await api 
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    expect(result.body.error).toContain("username 'ro'")
+  })
+
+  test('Adding a a user with less than 3 characters password', async () => {
+    const newUser = {
+      username: 'rooti',
+      password: 'ws',
+      name: 'rootie3'
+    }
+
+    const result = await api 
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    expect(result.body.error).toContain("Password doesn't meet the requirements")
+  }) 
+})
 
 
 afterAll(() => {

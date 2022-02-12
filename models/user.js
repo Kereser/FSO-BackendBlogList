@@ -8,7 +8,7 @@ const usernameValidator = username => {
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    minlength: 4,
+    minlength: [3, 'username \'{VALUE}\' must be at least 3 characters long'],
     required: true,
     validate: [usernameValidator, '{VALUE} must not contain special characters.']
   },
