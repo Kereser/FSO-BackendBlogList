@@ -1,11 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyMDgxZWY2MzBhMWMxODZhY2YyODM4NCIsImlhdCI6MTY0NDcxMTE4Nn0.Qkt_qABBjTTqq2MwNIbWx2wugIqe51zmUtGCoFVxdLc
 
 {
-  "title": "Adding a note linked to root user",
-  "author": "rootie",
-  "url": "http://rootieandNote.com.co",
-  "likes": 5043,
-  "userId": "62081ef630a1c186acf28384"
+  "title": "Adding a note with token",
+  "author": "tokini",
+  "url": "http://tokenlife.com.co",
+  "likes": 5043
 }
