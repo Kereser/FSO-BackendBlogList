@@ -16,12 +16,24 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 }
 
-const requestLogger = (request, response, next) => {
-  logger.info('Method:', request.method)
-  logger.info('Path:  ', request.path)
-  logger.info('Body:  ', request.body)
+const requestLogger = (req, res, next) => {
+  logger.info('Method:', req.method)
+  logger.info('Path:  ', req.path)
+  logger.info('Body:  ', req.body)
   logger.info('---')
   next()
 }
 
-module.exports = { errorHandler, requestLogger, unknonPath }
+const tokenExtractor = (req, res, next) => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    req.token = authorization.substring(7)
+    next()
+  }
+  else {
+    req.token = null
+    next()
+  }
+}
+
+module.exports = { errorHandler, requestLogger, unknonPath, tokenExtractor }

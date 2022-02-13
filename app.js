@@ -13,6 +13,7 @@ const logger = require('./utils/logger')
 
 app.use(cors())
 app.use(express.json())
+app.use(middleware.tokenExtractor)
 
 mongoose
 .connect(config.MONGODB_URI)

@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyMDgxZWY2MzBhMWMxODZhY2YyODM4NCIsImlhdCI6MTY0NDcxMTE4Nn0.Qkt_qABBjTTqq2MwNIbWx2wugIqe51zmUtGCoFVxdLc
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1cGVycm9vdCIsImlkIjoiNjIwODFmMDYzMGExYzE4NmFjZjI4Mzg3IiwiaWF0IjoxNjQ0NzEyOTcxfQ.N6azCKFqizp1wUNyho5RDRI4sO4YihlPOAgIqtpMxwE
 
 {
-  "title": "Adding a note with token",
-  "author": "tokini",
-  "url": "http://tokenlife.com.co",
-  "likes": 5043
+  "title": "Trying with token extractor and Superroot",
+  "author": "Kiskimoski",
+  "url": "http://Superroteiro.com.co",
+  "likes": 0
 }
