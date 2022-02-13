@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1cGVycm9vdCIsImlkIjoiNjIwODFmMDYzMGExYzE4NmFjZjI4Mzg3IiwiaWF0IjoxNjQ0NzEyOTcxfQ.N6azCKFqizp1wUNyho5RDRI4sO4YihlPOAgIqtpMxwE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1cGVyNSIsImlkIjoiNjIwODk1ZDc0N2QxNTE5MzdjYjZiMzY3IiwiaWF0IjoxNjQ0NzI5ODQyfQ.mta2-xUiHfKcN7_ONFFpMWMTUIF3cI83hfB2B4I8UH0
 
 {
-  "title": "Trying with token extractor and Superroot",
-  "author": "Kiskimoski",
-  "url": "http://Superroteiro.com.co",
-  "likes": 0
+  "title": "Adding blog to Super5",
+  "author": "supasupa4",
+  "url": "http://ProfeSuperPerrOn.com.co",
+  "likes": 40003
 }
