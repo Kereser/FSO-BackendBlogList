@@ -72,9 +72,35 @@ describe('Verifying properties', () => {
   })
 })
 
+
 describe('Create blogs', () => {
-  test('Creates a new blog post', async () => {
-    jest.setTimeout(10000)
+  beforeEach( async () => {
+    await User.deleteMany({})
+
+    const newUser = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /json/)
+  })
+
+  test('Creates a new blog post with valid token', async () => {
+
+    const user = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
     const newBlog = {
       title: "Pakita la del barrio",
       author: "Cevichito",
@@ -84,6 +110,7 @@ describe('Create blogs', () => {
   
     const result = await api
       .post('/api/blogs')
+      .set('authorization', `bearer ${response.body.token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /json/)
@@ -94,10 +121,37 @@ describe('Create blogs', () => {
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).toContain(result.body.title)
   })
-})
 
-describe('Post with missing content', () => {
+  test('Post with invalid Token', async () => {
+    const invalidToken ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlN1cGVyMSIsImlkIjoiNjIwOTc2MTM2NjcxMzZmMWYwZWIxYzgyIiwiaWF0IjoxNjQ0Nzg3MjIwfQ.1Smek_fsJDuZH7SoMfrFJHd19impqbpWquNTxmFdTGG'
+
+    const newBlog = {
+      title: 'Here is here',
+      url: 'http://Here.com.co',
+      likes: 4,
+      author: 'James brown'
+    }
+
+    const result = await api
+      .post('/api/blogs')
+      .set('authorization', `bearer ${invalidToken}`)
+      .send(newBlog)
+      .expect(401)
+
+    expect(result.body.error).toContain('Invalid token.')
+  })
+
   test('No likes in request', async () => {
+    const user = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+    
     const newBlog = {
       title: "Pakita la del barrio",
       author: "Cevichito",
@@ -106,6 +160,7 @@ describe('Post with missing content', () => {
   
     const result = await api
       .post('/api/blogs')
+      .set('authorization', `bearer ${response.body.token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /json/)
@@ -114,6 +169,16 @@ describe('Post with missing content', () => {
   })
   
   test('Missing title', async () => {
+    const user = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+    
     const newBlog = {
       author: "Cevichito",
       url: "https://cechicheria.com.co",
@@ -122,6 +187,7 @@ describe('Post with missing content', () => {
   
     await api
       .post('/api/blogs')
+      .set('authorization', `bearer ${response.body.token}`)
       .send(newBlog)
       .expect(400)
   
@@ -130,6 +196,16 @@ describe('Post with missing content', () => {
   })
 
   test('Missing url', async () => {
+    const user = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
     const newBlog = {
       title: "Sirenam",
       author: "Cevichito",
@@ -138,22 +214,67 @@ describe('Post with missing content', () => {
   
     await api
       .post('/api/blogs')
+      .set('authorization', `bearer ${response.body.token}`)
       .send(newBlog)
       .expect(400)
   
     const notesAtEnd = await helper.blogsInDB()
     expect(notesAtEnd).toHaveLength(helper.initialBlogs.length)
   })
-})
+}, 10000)
+
 
 describe('Deleting resources', () => {
-  test('delete a note with existing ID', async () => {
+  beforeEach( async () => {
+    await User.deleteMany({})
+
+    const newUser = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /json/)
+
+    await Blog.deleteMany({})
+
+    const newBlog = new Blog({
+      title: "Sirenam",
+      author: "Cevichito",
+      url: "http://Deletingresources.com.co",
+      likes: 100,
+      user: result.body.id //? En el body del result ya llega como objeto normal y despues de pasar por el formateo del toJSON()
+    })
+
+    await newBlog.save()
+  })
+
+  test('delete a blog with existing ID', async () => {
+    const user = {
+      username: 'Super1',
+      password: 'Super1'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+
     const blogsAtStart = await helper.blogsInDB()
     const initialBlog = blogsAtStart[0]
 
+    console.log(initialBlog)
+    
     await api
       .delete(`/api/blogs/${initialBlog.id}`)
+      .set('authorization', `bearer ${response.body.token}`)
       .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(0)
   })
 
   test('Status code 400 if id is malformatted', async () => {

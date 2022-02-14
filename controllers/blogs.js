@@ -54,8 +54,6 @@ blogsRouter.delete('/:id', async (req, res) => {
   const blog = await Blog.findById(req.params.id)
   const decodedToken = jwt.verify(req.token, process.env.SECRET)
 
-  console.log(blog, decodedToken)
-
   if (blog.user.toString() !== decodedToken.id) {
     return res.status(401).json({
       error: "Can't delete the blog because you are not the owner."
