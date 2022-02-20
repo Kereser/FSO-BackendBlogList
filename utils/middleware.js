@@ -1,6 +1,6 @@
 const logger = require('./logger')
 
-const unknonPath = (req, res, next) => {
+const unknonPath = (req, res) => {
   return res.status(404).send({ error: 'Unknown endpoint' })
 }
 

@@ -16,7 +16,7 @@ blogsRouter.post('/', async (req, res) => {
 
   if(!decodedToken) {
     return res.status(401).json({
-      error: "Invalid or missing token"
+      error: 'Invalid or missing token'
     })
   }
 
@@ -56,7 +56,7 @@ blogsRouter.delete('/:id', async (req, res) => {
 
   if (blog.user.toString() !== decodedToken.id) {
     return res.status(401).json({
-      error: "Can't delete the blog because you are not the owner."
+      error: 'Can\'t delete the blog because you are not the owner.'
     })
   }
 

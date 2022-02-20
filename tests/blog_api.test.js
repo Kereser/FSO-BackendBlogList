@@ -102,9 +102,9 @@ describe('Create blogs', () => {
       .expect(200)
 
     const newBlog = {
-      title: "Pakita la del barrio",
-      author: "Cevichito",
-      url: "https://cechicheria.com.co",
+      title: 'Pakita la del barrio',
+      author: 'Cevichito',
+      url: 'https://cechicheria.com.co',
       likes: 2
     }
   
@@ -153,9 +153,9 @@ describe('Create blogs', () => {
       .expect(200)
     
     const newBlog = {
-      title: "Pakita la del barrio",
-      author: "Cevichito",
-      url: "https://cechicheria.com.co"
+      title: 'Pakita la del barrio',
+      author: 'Cevichito',
+      url: 'https://cechicheria.com.co'
     }
   
     const result = await api
@@ -180,8 +180,8 @@ describe('Create blogs', () => {
       .expect(200)
     
     const newBlog = {
-      author: "Cevichito",
-      url: "https://cechicheria.com.co",
+      author: 'Cevichito',
+      url: 'https://cechicheria.com.co',
       likes: 100
     }
   
@@ -207,8 +207,8 @@ describe('Create blogs', () => {
       .expect(200)
 
     const newBlog = {
-      title: "Sirenam",
-      author: "Cevichito",
+      title: 'Sirenam',
+      author: 'Cevichito',
       likes: 100
     }
   
@@ -242,9 +242,9 @@ describe('Deleting resources', () => {
     await Blog.deleteMany({})
 
     const newBlog = new Blog({
-      title: "Sirenam",
-      author: "Cevichito",
-      url: "http://Deletingresources.com.co",
+      title: 'Sirenam',
+      author: 'Cevichito',
+      url: 'http://Deletingresources.com.co',
       likes: 100,
       user: result.body.id //? En el body del result ya llega como objeto normal y despues de pasar por el formateo del toJSON()
     })
@@ -340,7 +340,7 @@ describe('Adding users to db with initial data', () => {
       .send(newUser)
       .expect(400)
 
-    expect(result.body.error).toContain("username 'ro'")
+    expect(result.body.error).toContain('username \'ro\'')
   })
 
   test('Adding a a user with less than 3 characters password', async () => {
@@ -355,7 +355,7 @@ describe('Adding users to db with initial data', () => {
       .send(newUser)
       .expect(400)
 
-    expect(result.body.error).toContain("Password doesn't meet the requirements")
+    expect(result.body.error).toContain('Password doesn\'t meet the requirements')
   }) 
 })
 

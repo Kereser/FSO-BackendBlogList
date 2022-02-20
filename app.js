@@ -16,13 +16,13 @@ app.use(express.json())
 app.use(middleware.tokenExtractor)
 
 mongoose
-.connect(config.MONGODB_URI)
-.then(() => {
-  logger.info(`Connected to Mongo`)
-})
-.catch(error => {
-  logger.info(`Not connected to Mongo`, error.message)
-})
+  .connect(config.MONGODB_URI)
+  .then(() => {
+    logger.info('Connected to Mongo')
+  })
+  .catch(error => {
+    logger.info('Not connected to Mongo', error.message)
+  })
 
 app.use(middleware.requestLogger)
 

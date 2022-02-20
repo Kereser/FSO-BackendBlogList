@@ -3,21 +3,21 @@ const User = require('../models/user')
 
 const initialBlogs = [
   {
-    title: "Locing in the air",
-    author: "Ramusco",
-    url: "http:/loving.com.co",
+    title: 'Locing in the air',
+    author: 'Ramusco',
+    url: 'http:/loving.com.co',
     likes: 403
   },
   {
-    title: "Harry Potter",
-    author: "unknown",
-    url: "http://Harry.com.co",
+    title: 'Harry Potter',
+    author: 'unknown',
+    url: 'http://Harry.com.co',
     likes: 200
   },
   {
-    title: "GOT",
-    author: "Romiski",
-    url: "http://GOT.com.co",
+    title: 'GOT',
+    author: 'Romiski',
+    url: 'http://GOT.com.co',
     likes: 1000
   }
 ]
@@ -29,9 +29,9 @@ const blogsInDB = async () => {
 
 const nonExistingId = async () => {
   const blog = new Blog({
-    title: "Gotttik",
-    author: "Romiski",
-    url: "http://gotshki.com.es",
+    title: 'Gotttik',
+    author: 'Romiski',
+    url: 'http://gotshki.com.es',
     likes: 1
   })
 

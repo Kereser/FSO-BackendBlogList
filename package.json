@@ -6,12 +6,14 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js"
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "lint": "eslint ."
   },
   "author": "Juan Arias",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "eslint": "^8.9.0",
     "jest": "^27.5.0",
     "nodemon": "^2.0.15",
     "supertest": "^6.2.2"
